@@ -1,0 +1,158 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #ffe6f0, #ffffff);
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.column.left {
+  width: 20%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.column.center {
+  width: 60%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.column.right {
+  width: 20%;
+  height: 700px;
+  min-height: 700px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.section {
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+.sectionchat {
+  background: white;
+  padding: 9px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+.tiktok_section {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+#welcome {
+  background: none;
+  padding: 0;
+  box-shadow: none;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+#mood {
+  width: 100%;
+  flex-grow: 1;
+}
+
+#mood img {
+  width: 100%;
+  height: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+#spotify, #timer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#chat-log {
+  height: 150px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+#chat input {
+  width: calc(100% - 80px);
+  padding: 7px;
+  margin-right: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  display: block;
+}
+
+#chat button {
+  padding: 8px 10px;
+  border: none;
+  background-color: #ff80ab;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.chat button.hover{
+  background-color: mistyrose;
+  color: black;
+}
+
+.bloop {
+  background-color: mistyrose;
+  border: none;
+  color: black;
+  padding : 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 13px;
+  border-radius: 12px;
+  margin: 8px auto;
+  width: 120px;
+}
+.bloop:hover {
+  background-color: whitesmoke;
+  transition-duration: 0.5s;
+  color: #ff80ab;
+}
+.chat-input-row {
+  display: flex;
+  gap: 8px;
+  color: lavenderblush;
+}
+
+.chat-input-row input {
+  flex-grow: 1;
+  padding: 7px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.chat-input-row button {
+  padding: 8px 12px;
+  border: none;
+  background-color: #ff80ab;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}

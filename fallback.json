@@ -1,0 +1,10 @@
+{
+    "fallback_phrases" :[
+          "Sorry, I did not quite catch that. Could you please rephrase?",
+          "Hmm, I am not sure what you mean. Can you clarify?",
+          "I am still learning. Could you ask in a different way?",
+          "I did not understand that. Can you try again?",
+          "I am sorry, but I do not know the answer to that. Can you reword your question?"
+      ]
+
+}

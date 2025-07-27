@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MirrorMe</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <script src="https://static.elfsight.com/platform/platform.js" async></script>
+</head>
+<body>
+  <div class="container">
+
+    <div class="column left">
+      <div class="section" id="spotify">
+        <h3>Spotify</h3>
+        <p>Now Playing: <em>Reflecting your mood 🎵</em></p>
+      </div>
+      <div class="section" id="timer">
+        <h3>Pomodro Study Timer</h3>
+        <p id="time-display" style="font-size: 50px">25:00</p>
+        <button class="bloop" onclick="startTimer()">Start</button>
+        <button class="bloop" onclick="pauseTimer()">Pause</button>
+        <button class="bloop" onclick="stopTimer()">Stop</button>
+      </div>
+    </div>
+
+    <div class="column center">
+      <div class="section" id="welcome">
+        <h2 style="font-size: xxx-large">👋 Welcome Back, Ruva!</h2>
+        <p>Let’s do something amazing today ✨</p>
+      </div>
+      <div class="section" id="mood">
+        <h3>Mood Board</h3>
+        <img src="/static/emotions/happy.jpg" style="width: 100%; border-radius: 12px;" >
+      </div>
+    </div>
+
+    <div class="column right">
+      <div class="sectionchat" id="chat">
+        <h3>Chat with Mirri</h3>
+        <div id="chat-log">
+        </div>
+  <div class="chat-input-row">
+    <input type="text" placeholder="Type your message..." />
+    <button class="bloop">Send</button>
+  </div>
+      </div>
+
+      <div class="tiktok_section" id="videos">
+        <div class="elfsight-app-b12c2b9d-2933-4eef-b331-b64f4c82741e" data-elfsight-app-lazy></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timer Script -->
+  <script>
+    let timerInterval;
+    let totalSeconds = 25 * 60;
+    let isPaused = false;
+
+    function updateDisplay() {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      document.getElementById("time-display").innerText =
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+      if (timerInterval || totalSeconds <= 0) return;
+      const moodImage = document.querySelector('#mood img');
+      if (moodImage) {
+        moodImage.src = '/static/emotions/study.jpg';
+      }
+      isPaused = false;
+      timerInterval = setInterval(() => {
+        if (!isPaused) {
+          totalSeconds--;
+          updateDisplay();
+          if (totalSeconds <= 0) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            alert("⏰ Time's up!");
+          }
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      isPaused = !isPaused;
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      totalSeconds = 25 * 60;
+      const moodImage = document.querySelector('#mood img');
+      if (moodImage) {
+        moodImage.src = '/static/emotions/pic.jpg';
+      }
+      updateDisplay();
+    }
+
+    updateDisplay();
+  </script>
+
+  <!-- Chat Logic -->
+  <script>
+    const chatLog = document.getElementById("chat-log");
+    const inputBox = document.querySelector('#chat input');
+    const sendButton = document.querySelector('#chat button');
+    const moodImage = document.querySelector('#mood img');
+
+    const emotionMap = {
+      happy: "happy.jpg",
+      excited: "excited.jpg",
+      sad: "sad.jpg",
+      angry: "angry.jpg",
+      anxious: "anxious.jpg",
+    };
+
+    function detectEmotionAndUpdateImage(text) {
+      const lowerText = text.toLowerCase();
+      for (const emotion in emotionMap) {
+        if (lowerText.includes(emotion)) {
+          moodImage.src = `/static/emotions/${emotionMap[emotion]}`;
+          return emotion;
+        }
+      }
+      moodImage.src = `/static/emotions/pic.jpg`;
+      return null;
+    }
+
+    sendButton.addEventListener("click", async () => {
+      const userInput = inputBox.value.trim();
+      if (userInput === "") return;
+
+      const userMsg = document.createElement("p");
+      userMsg.innerHTML = `<strong>You:</strong> ${userInput}`;
+      chatLog.appendChild(userMsg);
+
+      try {
+        const response = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userInput })
+        });
+
+        const data = await response.json();
+
+        const botMsg = document.createElement("p");
+        botMsg.innerHTML = `<strong>Mirri:</strong> ${data.response}`;
+        chatLog.appendChild(botMsg);
+
+        if (data.image_path) {
+          moodImage.src = data.image_path;
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        const errorMsg = document.createElement("p");
+        errorMsg.innerHTML = `<strong>Mirri:</strong> Something went wrong 😢`;
+        chatLog.appendChild(errorMsg);
+      }
+
+      inputBox.value = "";
+      chatLog.scrollTop = chatLog.scrollHeight;
+    });
+  </script>
+</body>
+</html>
