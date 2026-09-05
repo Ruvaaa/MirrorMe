@@ -33,7 +33,7 @@ Optional: GPT-4 API (or local alternatives), Spotify API
 1. Clone the repo
 bash
 Copy code
-git clone https://github.com/your-username/mirrorme.git
+git clone https://github.com/Ruvaaa/MirrorMe.git
 cd mirrorme
 2. Set up the Python backend
 bash
