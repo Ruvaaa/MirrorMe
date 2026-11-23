@@ -1,26 +1,23 @@
-# MirrorMe
-🌟 MirrorMe — Your Reflective AI Companion
-MirrorMe is an interactive AI-powered desktop app that feels like looking into a mirror of your mind. It features a deeply human chatbot named Mirri, mood detection, personalized music reflection via Spotify, and a TikTok-style feed tailored to your growth, creativity, and well-being.
+# MirrorMe 2.0
 
-✨ Features
-🧠 Human-Like Chatbot (Mirri)
-Powered by a locally hosted NLP model, Mirri engages you in emotional, growth-focused, and playful conversations that feel real.
+MirrorMe is a private desktop companion for reflective conversation, mood check-ins, journaling, discovery, music preferences, and personal growth.
 
-🎵 Spotify Mood Sync (optional)
-Detects your emotional tone and plays music to match or uplift your vibe via Spotify integration.
+## Run locally
 
-📱 TikTok-Style Feed
-Shows short-form videos (coding tips, personal growth, F1, Ray William Johnson, etc.), with one popping up at a time for a calm, mindful experience.
+### Flask application
 
-💬 Emotion Detection
-Reads your text input and detects your emotional state to personalize replies and content suggestions.
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python main.py
+```
 
-🖥️ Modern UI (React + Tailwind + Electron)
-A clean, cozy interface with soft edges and a pink-white ombre gradient background that feels personal and comfortable.
+Open `http://127.0.0.1:5000`.
 
-📦 Tech Stack
-Frontend: React + Tailwind CSS
+### Electron desktop app
 
+<<<<<<< HEAD
 Backend: Flask (Python)
 
 Desktop App: Electron
@@ -47,55 +44,53 @@ python app.py
 bash
 Copy code
 cd ../frontend
+=======
+```powershell
+>>>>>>> 45affd9 (update)
 npm install
-npm run dev
-4. Package with Electron
-bash
-Copy code
-npm run electron
-🧪 Demo Mode
-Loads default chatbot responses from static/data/chat.json
+npm start
+```
 
-Loads TikTok embeds from a hardcoded list
+Electron starts the Flask process on `127.0.0.1:5000`, with context isolation and Node integration disabled.
 
-Use in offline mode or for hackathons without any paid APIs
+## Features
 
-📁 Folder Structure
-swift
-Copy code
-MirrorMe/
-│
-├── backend/
-│   ├── app.py
-│   └── static/data/chat.json
-│
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   │   └── components/
-│   └── index.html
-│
-└── README.md
+- Contextual Mirri conversations with local response matching
+- Estimated mood detection and manual mood correction
+- Private local JSON journal storage
+- Searchable reflections and guided prompts
+- One-item-at-a-time discovery feed with categories and saved content
+- Mood trends and journaling history dashboard
+- Optional local memory preferences
+- Optional LLM and Spotify integration structures
+- Warm light and charcoal dark themes
+- Focus timer
 
-An error occured when loading the folder structure, but all files are there and should arranged in th above order for it to work
+Local data is stored in `data/` unless `MIRRIME_DATA_DIR` is set.
 
-🧠 Philosophy
-MirrorMe isn't just a chatbot — it's a personal, emotional, and aesthetic tool for self-reflection, motivation, and inspiration. Whether you're feeling down, pumped, or just bored, Mirri is there to connect and reflect your inner world.
+## Optional providers
 
-🔮 Future Features
-🎙️ Voice Input/Output
+Copy `.env.example` to `.env` and configure only the integrations you use.
 
-📆 Personal Tracker Integration
+### OpenAI-compatible LLM
 
-🪞 Real-Time Avatar Reactions
+Set:
 
-☁️ Cloud Save + Sync
+- `MIRRIME_LLM_URL`
+- `MIRRIME_LLM_API_KEY`
+- `MIRRIME_LLM_MODEL`
 
-🧩 Plugin System for Personalization
+The URL should expose an OpenAI-compatible `/chat/completions` endpoint. If it is absent or unreachable, Mirri uses the existing local conversation data and reflective fallback responses.
 
-🧑‍💻 Made With Love By
-👤 Ruvarashe Nemaramba
-— AI dreamer, climate activist, F1 lover, and tech creative from Zimbabwe.
+### Spotify
 
-📜 License
-This project is licensed under the MIT License.
+Set `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and, for a completed account session, `SPOTIFY_ACCESS_TOKEN`. A full OAuth callback and playback control flow requires credentials and registration of a local redirect URI. Until that flow is configured, the app provides mood-based playlist guidance and clearly shows Spotify as unavailable.
+
+## spaCy
+
+spaCy is optional. The application runs with the bundled conversation data and keyword fallbacks when spaCy or `en_core_web_md` is unavailable. To enable semantic matching on a compatible Python runtime:
+
+```powershell
+python -m pip install "spacy>=3.8,<3.9"
+python -m spacy download en_core_web_md
+```
